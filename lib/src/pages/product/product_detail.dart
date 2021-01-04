@@ -1,10 +1,25 @@
 import 'package:Tradaru/src/components/appbar/my_appbar.dart';
-import 'package:Tradaru/src/components/category_chip/category_chip.dart';
+import 'package:Tradaru/src/components/text/my_text.dart';
 import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
+  @override
+  _ProductDetailState createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
   ProductModel product;
+  int _currentImage = 0;
+  int _currentOption = 0;
+  List<String> _options = ["US 6", "US 7", "US 8", "US 9"];
+  List<Color> _availColors = [
+    Colors.yellow,
+    Colors.red,
+    Colors.pink[100],
+    Colors.blue
+  ];
+
   @override
   Widget build(BuildContext context) {
     ProductModel _product = ModalRoute.of(context).settings.arguments;
@@ -41,43 +56,61 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar() {
-    return AppBar(
-      centerTitle: true,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(),
-          Text("Product detail"),
-          Container(
-            decoration:
-                BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-            child: IconButton(
-                icon: Icon(Icons.favorite),
-                color: Colors.white,
-                onPressed: () {}),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _buildImage({double width}) => Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          CategoryChip(),
+          if (product.discount > 1) _buildDiscount(),
           Image.network(
-            product.image[0],
+            product.image[_currentImage],
             width: 0.4 * width,
           ),
-          Container(
-            width: 0.1 * width,
-            height: 10,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.blue),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var el in product.image)
+                _buildScrollIndicator(width: width, idx: el)
+            ],
           )
         ],
       );
+
+  Widget _buildScrollIndicator({double width, String idx}) =>
+      idx == product.image[_currentImage]
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 0.1 * width,
+                height: 10,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 0.015 * width,
+                height: 5,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue),
+              ),
+            );
+
+  Widget _buildDiscount() {
+    return Container(
+      width: 50,
+      height: 40,
+      child: Card(
+        color: Colors.lightBlueAccent[100],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(child: Text("${product.discount}%")),
+        ),
+      ),
+    );
+  }
 
   Widget _buildDescription({double width}) => Container(
         decoration: BoxDecoration(
@@ -104,46 +137,44 @@ class ProductDetail extends StatelessWidget {
       );
 
   Widget _buildHeaderDesc({double width}) => SingleChildScrollView(
-        child: Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      product.title,
-                      style: TextStyle(
-                          color: Colors.blue[900],
-                          fontSize: 0.07 * width,
-                          fontWeight: FontWeight.w700),
-                    ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    product.title,
+                    style: TextStyle(
+                        color: Colors.blue[900],
+                        fontSize: 0.07 * width,
+                        fontWeight: FontWeight.w700),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow[600],
-                      ),
-                      Text(
-                        "(4.3)",
-                      )
-                    ],
-                  )
-                ],
-              ),
-              Text(
-                product.description,
-                style: TextStyle(
-                    color: Colors.blue[900],
-                    fontSize: 0.04 * width,
-                    fontWeight: FontWeight.normal),
-              )
-            ],
-          ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[600],
+                    ),
+                    Text(
+                      "(${product.rate.toStringAsFixed(1)})",
+                    )
+                  ],
+                )
+              ],
+            ),
+            Text(
+              product.description,
+              style: TextStyle(
+                  color: Colors.blue[900],
+                  fontSize: 0.04 * width,
+                  fontWeight: FontWeight.normal),
+            )
+          ],
         ),
       );
 
@@ -166,50 +197,8 @@ class ProductDetail extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    FlatButton(
-                        onPressed: () {},
-                        color: Colors.lightBlue[300],
-                        height: 50,
-                        minWidth: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          "US 6",
-                          style: TextStyle(fontSize: 0.04 * width),
-                        )),
-                    FlatButton(
-                        onPressed: () {},
-                        color: Colors.lightBlue[300],
-                        height: 50,
-                        minWidth: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          "US 7",
-                          style: TextStyle(fontSize: 0.04 * width),
-                        )),
-                    FlatButton(
-                        onPressed: () {},
-                        color: Colors.lightBlue[300],
-                        height: 50,
-                        minWidth: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          "US 8",
-                          style: TextStyle(fontSize: 0.04 * width),
-                        )),
-                    FlatButton(
-                        onPressed: () {},
-                        color: Colors.lightBlue[300],
-                        height: 50,
-                        minWidth: 50,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          "US 9",
-                          style: TextStyle(fontSize: 0.04 * width),
-                        )),
+                    for (var i in _options)
+                      _optionSizing(width: width, type: i),
                   ],
                 ),
               )
@@ -230,30 +219,8 @@ class ProductDetail extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      width: 0.075 * width,
-                      height: 0.075 * width,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.yellow),
-                    ),
-                    Container(
-                      width: 0.075 * width,
-                      height: 0.075 * width,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                    ),
-                    Container(
-                      width: 0.075 * width,
-                      height: 0.075 * width,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.pink),
-                    ),
-                    Container(
-                      width: 0.075 * width,
-                      height: 0.075 * width,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.blue),
-                    ),
+                    for (var color in _availColors)
+                      _optionColor(width: width, color: color)
                   ],
                 ),
               )
@@ -261,6 +228,35 @@ class ProductDetail extends StatelessWidget {
           )
         ],
       );
+
+  Widget _optionSizing({double width, String type}) {
+    return FlatButton(
+        onPressed: () {
+          print(type);
+          int idx = _options.indexOf(type);
+          setState(() {
+            _currentOption = idx;
+          });
+        },
+        height: 50,
+        minWidth: 50,
+        color: type == _options[_currentOption]
+            ? Colors.lightBlue[200]
+            : Colors.grey[200],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Text(
+          type,
+          style: TextStyle(fontSize: 0.04 * width),
+        ));
+  }
+
+  Widget _optionColor({double width, Color color}) {
+    return Container(
+      width: 0.075 * width,
+      height: 0.075 * width,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+    );
+  }
 
   Widget _buildBottom({double height, double width}) => Container(
         height: 0.1 * height,
@@ -274,14 +270,28 @@ class ProductDetail extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "\$ 269.00",
-                style: TextStyle(
-                    fontSize: 0.08 * width, fontWeight: FontWeight.w900),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Align(
+                    alignment: Alignment(0, -0.5),
+                    child: Text(
+                      "\$ ",
+                      style: TextStyle(
+                          fontSize: 0.04 * width, fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  Text(
+                    product.price.toString(),
+                    style: TextStyle(
+                        fontSize: 0.08 * width, fontWeight: FontWeight.w900),
+                  ),
+                ],
               ),
               FlatButton(
                 onPressed: () {},
-                color: Colors.grey[300],
+                color: Colors.grey[100],
                 height: 50,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
@@ -290,12 +300,11 @@ class ProductDetail extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.shopping_cart,
-                      color: Colors.blue,
+                      color: Colors.blue[900],
                     ),
-                    Text(
-                      "Add to chart",
-                      style:
-                          TextStyle(color: Colors.blue, fontSize: 0.04 * width),
+                    MyText(
+                      title: "Add to cart",
+                      type: MyTextType.caption,
                     )
                   ],
                 ),

@@ -1,3 +1,4 @@
+import 'package:Tradaru/src/components/favorite_indicator/my_favorite_button.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -35,11 +36,7 @@ class MyAppBar extends StatelessWidget {
 
   Widget _suffix() {
     if (type == MyAppBarType.detail) {
-      return Container(
-        decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-        child: IconButton(
-            icon: Icon(Icons.favorite), color: Colors.white, onPressed: () {}),
-      );
+      return MyFavorite();
     } else {
       return IconButton(
           icon: Icon(
@@ -48,8 +45,6 @@ class MyAppBar extends StatelessWidget {
           ),
           onPressed: () {});
     }
-
-    return Container();
   }
 }
 

@@ -10,6 +10,25 @@ class ProductModel {
   double _rate;
   int _discount;
 
+  ProductModel(
+      {int id,
+      String title,
+      double price,
+      String description,
+      String category,
+      List<String> image,
+      double rate,
+      int discount}) {
+    _id = id;
+    _title = title;
+    _price = price;
+    _description = description;
+    _category = category;
+    _image = image;
+    _rate = rate;
+    _discount = discount;
+  }
+
   ProductModel.fromJson(Map<String, dynamic> parsedJson) {
     _id = parsedJson["id"];
     _title = parsedJson["title"];
@@ -21,7 +40,11 @@ class ProductModel {
     List<String> temp = [];
     int images = _random(1, 5);
     for (int i = 0; i < images; i++) {
-      temp.add(parsedJson["image"]);
+      if (i == 0) {
+        temp.add(parsedJson["image"]);
+      } else {
+        temp.add("https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg");
+      }
     }
 
     _rate = _randomRate(1, 4);

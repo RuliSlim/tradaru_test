@@ -1,5 +1,5 @@
-import 'package:Tradaru/src/Api/products_api.dart';
 import 'package:Tradaru/src/models/product_model.dart';
+import 'package:Tradaru/src/provider/products_api.dart';
 
 class Repository {
   ProductApi _productApi = ProductApi();

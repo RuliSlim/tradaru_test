@@ -1,3 +1,4 @@
+import 'package:Tradaru/src/components/favorite_indicator/my_favorite_button.dart';
 import 'package:Tradaru/src/components/text/my_text.dart';
 import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,9 @@ class _MyCardState extends State<MyCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (widget.product.discount > 0) buildDiscount(),
-        buildFav(isFav: isFavorie)
+        MyFavorite(
+          productModel: widget.product,
+        )
       ],
     ));
   }
@@ -143,7 +146,7 @@ class _MyCardState extends State<MyCard> {
     }
 
     result.add(MyText(
-      title: "(${widget.product.rate.toStringAsFixed(2)})",
+      title: "(${widget.product.rate.toStringAsFixed(1)})",
       type: MyTextType.smallCaption,
     ));
 
