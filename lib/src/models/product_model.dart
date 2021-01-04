@@ -24,7 +24,7 @@ class ProductModel {
       temp.add(parsedJson["image"]);
     }
 
-    _rate = _randomRate(0, 5);
+    _rate = _randomRate(1, 4);
     _discount = _random(0, 70);
 
     _image = temp;
@@ -47,6 +47,6 @@ class ProductModel {
 
   double _randomRate(min, max) {
     var rn = new Random();
-    return (max - min) + rn.nextDouble();
+    return max * rn.nextDouble() + min;
   }
 }

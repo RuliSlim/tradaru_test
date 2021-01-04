@@ -1,3 +1,4 @@
+import 'package:Tradaru/src/components/appbar/my_appbar.dart';
 import 'package:Tradaru/src/pages/product/product_detail.dart';
 import 'package:Tradaru/src/pages/product/product_list.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,16 @@ class _MyAppState extends State<MyApp> {
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: Text("TRADARU"),
+          title: MyAppBar(MyAppBarType.list),
+          backgroundColor: Colors.grey[100],
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.apps,
+              color: Colors.black,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
         body: _items[_index],
         extendBody: true,

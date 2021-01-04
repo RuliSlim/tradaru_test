@@ -12,7 +12,7 @@ class Header extends StatelessWidget {
           Text(
             "Our Product",
             style:
-                TextStyle(fontSize: 0.08 * width, fontWeight: FontWeight.w900),
+                TextStyle(fontSize: 0.07 * width, fontWeight: FontWeight.w700),
           ),
           DropdownButton(
             items: null,

@@ -1,3 +1,4 @@
+import 'package:Tradaru/src/components/text/my_text.dart';
 import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,12 @@ class _MyCardState extends State<MyCard> {
   @override
   Widget build(BuildContext context) {
     final double width = 40 / 100 * MediaQuery.of(context).size.width;
-    final double height = 1.5 * width;
+    final double height = 275;
     return InkWell(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 15),
           child: Container(
             width: width,
             height: height,
@@ -32,21 +33,10 @@ class _MyCardState extends State<MyCard> {
                   widget.product.image[0],
                   width: 0.5 * width,
                 ),
-                Text(
-                  widget.product.title,
-                  style: TextStyle(
-                    fontSize: 0.08 * width,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  "\$ ${widget.product.price}",
-                  style: TextStyle(
-                      fontSize: 0.1 * width,
-                      color: Colors.blue[900],
-                      fontWeight: FontWeight.w900),
-                ),
+                MyText(title: widget.product.title, type: MyTextType.caption),
+                MyText(
+                    title: "\$ ${widget.product.price}",
+                    type: MyTextType.price),
                 ratingCard(width: width)
               ],
             ),
@@ -84,7 +74,7 @@ class _MyCardState extends State<MyCard> {
     );
   }
 
-  Widget buildFav({bool isFav}) {
+  Widget buildFav({bool isFav, double}) {
     return !isFav
         ? IconButton(
             icon: Icon(Icons.favorite_border),
@@ -109,49 +99,54 @@ class _MyCardState extends State<MyCard> {
 
   Widget ratingCard({double width}) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Icon(
-            Icons.star,
-            color: Colors.yellow[600],
-            size: 0.1 * width,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _buildStars(width));
+  }
+
+  List<Widget> _buildStars(double width) {
+    List<Widget> result = [];
+    for (int i = 0; i < 6; i++) {
+      if (i < widget.product.rate.toInt()) {
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Icon(
+              Icons.star,
+              color: Colors.yellow[600],
+              size: 0.1 * width,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Icon(
-            Icons.star,
-            color: Colors.yellow[600],
-            size: 0.1 * width,
+        );
+      } else if (i.toDouble() - widget.product.rate > 0 &&
+          i.toDouble() - widget.product.rate < 1) {
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Icon(
+              Icons.star_half,
+              color: Colors.yellow[600],
+              size: 0.1 * width,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Icon(
-            Icons.star,
-            color: Colors.yellow[600],
-            size: 0.1 * width,
+        );
+      } else if (i.toDouble() - widget.product.rate > 1) {
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Icon(
+              Icons.star_border,
+              size: 0.1 * width,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Icon(
-            Icons.star,
-            color: Colors.yellow[600],
-            size: 0.1 * width,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: Icon(
-            Icons.star_border,
-            size: 0.1 * width,
-          ),
-        ),
-        Text("(4)")
-      ],
-    );
+        );
+      }
+    }
+
+    result.add(MyText(
+      title: "(${widget.product.rate.toStringAsFixed(2)})",
+      type: MyTextType.smallCaption,
+    ));
+
+    return result;
   }
 }

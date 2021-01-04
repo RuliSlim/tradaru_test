@@ -1,3 +1,4 @@
+import 'package:Tradaru/src/components/appbar/my_appbar.dart';
 import 'package:Tradaru/src/components/category_chip/category_chip.dart';
 import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,14 @@ class ProductDetail extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: AppBar(
+        title: MyAppBar(MyAppBarType.detail),
+        backgroundColor: Colors.white10,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+      ),
       body: Column(
         children: [
           Flexible(
