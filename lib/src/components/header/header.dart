@@ -9,7 +9,11 @@ class Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Our Products"),
+          Text(
+            "Our Product",
+            style:
+                TextStyle(fontSize: 0.08 * width, fontWeight: FontWeight.w900),
+          ),
           DropdownButton(
             items: null,
             onChanged: null,
