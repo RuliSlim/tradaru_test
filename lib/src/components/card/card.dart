@@ -44,6 +44,9 @@ class _MyCardState extends State<MyCard> {
           ),
         ),
       ),
+      onTap: () {
+        Navigator.of(context).pushNamed("/detail");
+      },
     );
   }
 

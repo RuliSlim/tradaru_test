@@ -1,9 +1,14 @@
+import 'package:Tradaru/src/pages/product/product_detail.dart';
 import 'package:Tradaru/src/pages/product/product_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: MyApp(),
+    initialRoute: "/",
+    routes: {
+      "/": (BuildContext context) => MyApp(),
+      "/detail": (BuildContext context) => ProductDetail()
+    },
   ));
 }
 
