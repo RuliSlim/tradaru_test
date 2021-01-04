@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     initialRoute: "/",
+    debugShowCheckedModeBanner: false,
     routes: {
       "/": (BuildContext context) => MyApp(),
       "/detail": (BuildContext context) => ProductDetail()
