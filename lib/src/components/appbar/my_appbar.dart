@@ -1,10 +1,12 @@
 import 'package:Tradaru/src/components/favorite_indicator/my_favorite_button.dart';
+import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
   MyAppBarType type;
+  ProductModel product;
 
-  MyAppBar(this.type);
+  MyAppBar(this.type, {this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class MyAppBar extends StatelessWidget {
 
   Widget _suffix() {
     if (type == MyAppBarType.detail) {
-      return MyFavorite();
+      return MyFavorite(product: product);
     } else {
       return IconButton(
           icon: Icon(

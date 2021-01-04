@@ -3,9 +3,9 @@ import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class MyFavorite extends StatefulWidget {
-  final ProductModel productModel;
+  final ProductModel product;
 
-  MyFavorite({this.productModel});
+  MyFavorite({this.product});
   @override
   _MyFavoriteState createState() => _MyFavoriteState();
 }
@@ -16,7 +16,7 @@ class _MyFavoriteState extends State<MyFavorite> {
   @override
   void initState() {
     super.initState();
-    _bloc.checkFav();
+    _bloc.checkFav(widget.product);
   }
 
   @override
@@ -46,7 +46,7 @@ class _MyFavoriteState extends State<MyFavorite> {
   Widget _notFav(AsyncSnapshot<bool> snapshot) => IconButton(
       icon: Icon(Icons.favorite_border),
       onPressed: () {
-        _bloc.addToFav();
+        _bloc.addToFav(widget.product);
       });
 
   Widget _fav() => Container(
@@ -55,7 +55,7 @@ class _MyFavoriteState extends State<MyFavorite> {
             icon: Icon(Icons.favorite),
             color: Colors.white,
             onPressed: () {
-              _bloc.removeFav();
+              _bloc.removeFav(widget.product);
             }),
       );
 }

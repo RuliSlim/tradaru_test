@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 class ProductModel {
@@ -61,6 +62,28 @@ class ProductModel {
   List<String> get image => _image;
   int get discount => _discount;
   double get rate => _rate;
+
+  // save to local for favorite
+  static Map<String, dynamic> toMap(ProductModel product) => {
+        "id": product.id,
+        "title": product.title,
+        "price": product.price,
+        "description": product.description,
+        "category ": product.category,
+        "image": product.image,
+        "rate": product.rate,
+        "discount": product.discount,
+      };
+  static String encode(List<ProductModel> products) => json.encode(
+        products
+            .map<Map<String, dynamic>>((product) => ProductModel.toMap(product))
+            .toList(),
+      );
+
+  static List<ProductModel> decode(String products) =>
+      (json.decode(products) as List<dynamic>)
+          .map<ProductModel>((item) => ProductModel.fromJson(item))
+          .toList();
 
   // dummy images
   int _random(min, max) {

@@ -56,7 +56,7 @@ class _MyCardState extends State<MyCard> {
       children: [
         if (widget.product.discount > 0) buildDiscount(),
         MyFavorite(
-          productModel: widget.product,
+          product: widget.product,
         )
       ],
     ));
