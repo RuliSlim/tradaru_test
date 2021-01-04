@@ -1,9 +1,14 @@
 import 'package:Tradaru/src/components/category_chip/category_chip.dart';
+import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatelessWidget {
+  ProductModel product;
   @override
   Widget build(BuildContext context) {
+    ProductModel _product = ModalRoute.of(context).settings.arguments;
+    product = _product;
+
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -54,7 +59,7 @@ class ProductDetail extends StatelessWidget {
         children: [
           CategoryChip(),
           Image.network(
-            "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+            product.image[0],
             width: 0.4 * width,
           ),
           Container(
@@ -91,8 +96,7 @@ class ProductDetail extends StatelessWidget {
       );
 
   Widget _buildHeaderDesc({double width}) => SingleChildScrollView(
-        child: Container(
-          height: 0.15 * width,
+        child: Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,12 +104,14 @@ class ProductDetail extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Nike Air Max 200",
-                    style: TextStyle(
-                        color: Colors.blue[900],
-                        fontSize: 0.07 * width,
-                        fontWeight: FontWeight.w700),
+                  Flexible(
+                    child: Text(
+                      product.title,
+                      style: TextStyle(
+                          color: Colors.blue[900],
+                          fontSize: 0.07 * width,
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +128,7 @@ class ProductDetail extends StatelessWidget {
                 ],
               ),
               Text(
-                "Built for natural motion, the Nike Flex shoes",
+                product.description,
                 style: TextStyle(
                     color: Colors.blue[900],
                     fontSize: 0.04 * width,

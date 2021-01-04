@@ -1,6 +1,11 @@
+import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class MyCard extends StatefulWidget {
+  ProductModel product;
+
+  MyCard({this.product});
+
   @override
   _MyCardState createState() => _MyCardState();
 }
@@ -24,15 +29,19 @@ class _MyCardState extends State<MyCard> {
               children: [
                 headerCard(),
                 Image.network(
-                  "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+                  widget.product.image[0],
                   width: 0.5 * width,
                 ),
                 Text(
-                  "Foldsack No. 1 Backpack",
-                  style: TextStyle(fontSize: 0.08 * width),
+                  widget.product.title,
+                  style: TextStyle(
+                    fontSize: 0.08 * width,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "\$ 109.95,",
+                  "\$ ${widget.product.price}",
                   style: TextStyle(
                       fontSize: 0.1 * width,
                       color: Colors.blue[900],
@@ -45,7 +54,7 @@ class _MyCardState extends State<MyCard> {
         ),
       ),
       onTap: () {
-        Navigator.of(context).pushNamed("/detail");
+        Navigator.of(context).pushNamed("/detail", arguments: widget.product);
       },
     );
   }
@@ -53,8 +62,26 @@ class _MyCardState extends State<MyCard> {
   Widget headerCard() {
     return (Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text("Disokon"), buildFav(isFav: isFavorie)],
+      children: [
+        if (widget.product.discount > 0) buildDiscount(),
+        buildFav(isFav: isFavorie)
+      ],
     ));
+  }
+
+  Widget buildDiscount() {
+    return Container(
+      width: 50,
+      height: 40,
+      child: Card(
+        color: Colors.lightBlueAccent[100],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(child: Text("${widget.product.discount}%")),
+        ),
+      ),
+    );
   }
 
   Widget buildFav({bool isFav}) {
