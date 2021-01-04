@@ -13,6 +13,7 @@ class _MyCardState extends State<MyCard> {
     final double height = 1.5 * width;
     return InkWell(
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Container(
