@@ -4,7 +4,7 @@ import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class MyCard extends StatefulWidget {
-  ProductModel product;
+  final ProductModel product;
 
   MyCard({this.product});
 
@@ -29,7 +29,7 @@ class _MyCardState extends State<MyCard> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                headerCard(),
+                headerCard(width),
                 Image.network(
                   widget.product.image[0],
                   width: 0.5 * width,
@@ -50,13 +50,19 @@ class _MyCardState extends State<MyCard> {
     );
   }
 
-  Widget headerCard() {
+  Widget headerCard(double width) {
     return (Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (widget.product.discount > 0) buildDiscount(),
-        MyFavorite(
-          product: widget.product,
+        Container(
+          width: width - 100,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: MyFavorite(
+              product: widget.product,
+            ),
+          ),
         )
       ],
     ));

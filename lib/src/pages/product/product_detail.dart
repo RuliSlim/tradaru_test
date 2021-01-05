@@ -29,13 +29,18 @@ class _ProductDetailState extends State<ProductDetail> {
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: MyAppBar(MyAppBarType.detail),
-        backgroundColor: Colors.white10,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-      ),
+          title: MyAppBar(
+            MyAppBarType.detail,
+            product: product,
+          ),
+          backgroundColor: Colors.white10,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.of(context).popAndPushNamed("/"))),
       body: Column(
         children: [
           Flexible(

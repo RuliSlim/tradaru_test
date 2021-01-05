@@ -3,8 +3,8 @@ import 'package:Tradaru/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
-  MyAppBarType type;
-  ProductModel product;
+  final MyAppBarType type;
+  final ProductModel product;
 
   MyAppBar(this.type, {this.product});
 

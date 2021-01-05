@@ -50,6 +50,7 @@ class ProductModel {
 
     _rate = _randomRate(1, 4);
     _discount = _random(0, 70);
+    // _discount = 0;
 
     _image = temp;
   }
@@ -64,16 +65,20 @@ class ProductModel {
   double get rate => _rate;
 
   // save to local for favorite
+  static Map<String, String> toMapImage(String images) => {"image": images};
+
   static Map<String, dynamic> toMap(ProductModel product) => {
         "id": product.id,
         "title": product.title,
         "price": product.price,
         "description": product.description,
         "category ": product.category,
-        "image": product.image,
         "rate": product.rate,
         "discount": product.discount,
+        // "image": product.image.map((e) => ProductModel.toMapImage(e)).toList()
+        "image": product.image[0]
       };
+
   static String encode(List<ProductModel> products) => json.encode(
         products
             .map<Map<String, dynamic>>((product) => ProductModel.toMap(product))

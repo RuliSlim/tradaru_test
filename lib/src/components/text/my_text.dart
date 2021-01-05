@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyText extends StatelessWidget {
-  String title;
-  MyTextType type;
+  final String title;
+  final MyTextType type;
   double _width;
   Color _color;
   FontWeight _fontWeight;
@@ -23,7 +23,7 @@ class MyText extends StatelessWidget {
     );
   }
 
-  double _setWidth(BuildContext context) {
+  void _setWidth(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     switch (type) {
       case MyTextType.title:
